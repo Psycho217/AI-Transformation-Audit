@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziiroo — Marketing, Sales & Operations Blueprint</title>
+    <style>
+        :root {
+            --fg: #1a1a1a;
+            --fg-secondary: #4a4a4a;
+            --fg-muted: #999;
+            --bg: #fff;
+            --bg-subtle: #fafafa;
+            --border: #eaeaea;
+            --accent: #111;
+            --green: #059669;
+            --red: #dc2626;
+            --blue: #2563eb;
+            --orange: #d97706;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            color: var(--fg);
+            background: var(--bg);
+            line-height: 1.75;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page { max-width: 780px; margin: 0 auto; padding: 0 32px; }
+
+        /* Slides */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+            page-break-after: always;
+        }
+
+        .slide.compact {
+            min-height: auto;
+            padding: 72px 0;
+        }
+
+        .slide-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--fg-muted);
+            margin-bottom: 10px;
+        }
+
+        .slide-num {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid var(--fg);
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 26px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            line-height: 1.25;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 40px 0 14px;
+            letter-spacing: -0.2px;
+        }
+
+        h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 20px 0 6px;
+        }
+
+        p { margin-bottom: 14px; color: var(--fg-secondary); }
+        .lead { font-size: 18px; max-width: 560px; line-height: 1.6; }
+        .sublead { font-size: 16px; color: var(--fg-secondary); max-width: 600px; margin-bottom: 36px; }
+
+        ul, ol { padding-left: 20px; margin: 10px 0 20px; }
+        li { margin: 5px 0; color: var(--fg-secondary); }
+        li strong { color: var(--fg); }
+
+        /* Callout */
+        .callout {
+            border-left: 2px solid var(--fg);
+            padding: 16px 20px;
+            margin: 28px 0;
+        }
+        .callout p { margin: 0; }
+        .callout strong { color: var(--fg); }
+
+        .callout.green { border-left-color: var(--green); }
+        .callout.blue { border-left-color: var(--blue); }
+        .callout.orange { border-left-color: var(--orange); }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        th {
+            text-align: left; padding: 10px 14px; font-weight: 600;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+            color: var(--fg-muted); border-bottom: 1px solid var(--fg);
+        }
+        td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--fg-secondary); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Grid */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .grid-item { padding: 20px; border: 1px solid var(--border); border-radius: 6px; }
+        .grid-item h4 { margin-top: 0; }
+        .grid-item p:last-child { margin-bottom: 0; }
+
+        /* Metrics */
+        .metric-row { display: flex; gap: 16px; margin: 28px 0; flex-wrap: wrap; }
+        .metric { flex: 1; min-width: 140px; padding: 16px; border: 1px solid var(--border); border-radius: 6px; text-align: center; }
+        .metric-value { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        .metric-label { font-size: 11px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+        .green { color: var(--green); }
+        .red { color: var(--red); }
+        .blue { color: var(--blue); }
+
+        /* Compare */
+        .compare { display: grid; grid-template-columns: 1fr 32px 1fr; align-items: center; margin: 28px 0; }
+        .compare-box { padding: 20px; border: 1px solid var(--border); border-radius: 6px; }
+        .compare-box.before { border-color: var(--red); border-style: dashed; }
+        .compare-box.after { border-color: var(--green); }
+        .compare-arrow { text-align: center; font-size: 18px; color: var(--fg-muted); }
+
+        /* Flow */
+        .flow { margin: 32px 0; padding: 28px 24px; border: 1px solid var(--border); border-radius: 8px; }
+        .flow-v { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .flow-h { display: flex; align-items: center; gap: 0; justify-content: center; flex-wrap: nowrap; }
+        .flow-node { padding: 9px 16px; border: 1.5px solid var(--fg); border-radius: 6px; font-size: 13px; font-weight: 500; text-align: center; color: var(--fg); background: var(--bg); white-space: nowrap; }
+        .flow-node.muted { border-color: var(--border); color: var(--fg-secondary); }
+        .flow-connector { width: 1.5px; height: 20px; background: var(--fg-muted); position: relative; }
+        .flow-connector::after { content: ''; position: absolute; bottom: -3px; left: -3px; width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 5px solid var(--fg-muted); }
+        .flow-h-arrow { width: 24px; min-width: 24px; height: 1.5px; background: var(--fg-muted); position: relative; flex-shrink: 0; }
+        .flow-h-arrow::after { content: ''; position: absolute; right: -3px; top: -3px; width: 0; height: 0; border-top: 3.5px solid transparent; border-bottom: 3.5px solid transparent; border-left: 5px solid var(--fg-muted); }
+
+        /* Tags */
+        .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; margin-right: 6px; text-transform: uppercase; }
+        .tag.pain { background: #fef2f2; color: var(--red); }
+        .tag.solution { background: #f0fdf4; color: var(--green); }
+        .tag.tool { background: #eff6ff; color: var(--blue); }
+
+        /* Timeline */
+        .timeline-item { padding: 16px 0 16px 24px; border-left: 1.5px solid var(--border); position: relative; margin-left: 6px; }
+        .timeline-item::before { content: ''; position: absolute; left: -4px; top: 24px; width: 7px; height: 7px; border-radius: 50%; background: var(--fg); }
+        .timeline-item:last-child { border-left-color: transparent; }
+        .timeline-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--fg-muted); margin-bottom: 4px; }
+
+        /* Gantt */
+        .gantt { margin: 28px 0; border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
+        .gantt-section { margin-bottom: 20px; }
+        .gantt-section:last-child { margin-bottom: 0; }
+        .gantt-section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--fg-muted); margin-bottom: 8px; }
+        .gantt-bar-row { display: grid; grid-template-columns: 160px 1fr; align-items: center; margin: 4px 0; }
+        .gantt-bar-label { font-size: 13px; color: var(--fg-secondary); }
+        .gantt-bar-track { height: 6px; background: var(--border); border-radius: 3px; position: relative; }
+        .gantt-bar { position: absolute; height: 100%; border-radius: 3px; top: 0; }
+        .gantt-bar.green { background: var(--green); }
+        .gantt-bar.blue { background: var(--blue); }
+        .gantt-bar.dark { background: var(--fg); }
+
+        /* Footer */
+        .footer { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--border); font-size: 13px; color: var(--fg-muted); }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 28px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .compare { grid-template-columns: 1fr; gap: 12px; }
+            .compare-arrow { transform: rotate(90deg); }
+            .metric-row { flex-direction: column; }
+            .slide { min-height: auto; padding: 48px 0; }
+        }
+
+        @media print {
+            .slide { min-height: auto; padding: 48px 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<!-- SLIDE 0: COVER -->
+<div class="slide">
+    <div class="slide-label">Internal Strategy</div>
+    <h1>Building Our Core Functions:<br>Marketing, Sales & Operations</h1>
+    <p class="lead">How Ziiroo structures its first three business functions — the systems, tools, and AI we use internally to practice what we preach.</p>
+    <div style="margin-top:48px; font-size:13px; color:var(--fg-muted); display:flex; gap:24px;">
+        <span>Ziiroo</span>
+        <span>July 2026</span>
+        <span>Internal Document</span>
+    </div>
+</div>
+
+<!-- SLIDE 1: WHY THESE THREE -->
+<div class="slide compact">
+    <div class="slide-num">1</div>
+    <h2>Why Marketing, Sales & Operations first</h2>
+    <p class="sublead">These three functions form the revenue engine. Marketing creates demand. Sales converts it. Operations delivers on the promise. Everything else supports them.</p>
+
+    <div class="flow">
+        <div class="flow-h">
+            <div class="flow-node">Marketing<br><span style="font-size:11px;color:var(--fg-muted);">Generate demand</span></div>
+            <div class="flow-h-arrow"></div>
+            <div class="flow-node">Sales<br><span style="font-size:11px;color:var(--fg-muted);">Convert demand</span></div>
+            <div class="flow-h-arrow"></div>
+            <div class="flow-node">Operations<br><span style="font-size:11px;color:var(--fg-muted);">Deliver value</span></div>
+        </div>
+    </div>
+
+    <div class="callout">
+        <p><strong>The principle:</strong> We're a BI + AI consultancy. Our own functions should be the living proof — run on the same automation, dashboards, and AI systems we build for clients. Our internal setup IS our demo.</p>
+    </div>
+
+    <div class="metric-row">
+        <div class="metric">
+            <div class="metric-value">3</div>
+            <div class="metric-label">Functions to build</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">7</div>
+            <div class="metric-label">Total company functions</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value green">70%</div>
+            <div class="metric-label">Revenue impact</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 2: MARKETING — PAIN -->
+<div class="slide compact">
+    <div class="slide-num">2</div>
+    <div class="slide-label">Function 1</div>
+    <h2>Marketing</h2>
+    <p class="sublead">Create awareness, build authority, and generate inbound demand from businesses that need BI + AI transformation.</p>
+
+    <h3><span class="tag pain">Pain</span> Without structured marketing</h3>
+    <ul>
+        <li><strong>Zero inbound pipeline</strong> — relying entirely on cold outreach and personal network</li>
+        <li><strong>No content engine</strong> — knowledge stays in your head instead of attracting clients</li>
+        <li><strong>No brand presence</strong> — prospects can't find you, can't verify credibility</li>
+        <li><strong>Inconsistent messaging</strong> — every conversation starts from scratch</li>
+        <li><strong>No lead nurturing</strong> — people who aren't ready now are lost forever</li>
+    </ul>
+
+    <h3><span class="tag solution">Solution</span> Marketing stack for Ziiroo</h3>
+
+    <table>
+        <thead>
+            <tr><th>Channel</th><th>What we do</th><th>Tool / AI</th><th>Frequency</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>LinkedIn</strong></td>
+                <td>Thought leadership posts — BI insights, AI case studies, process breakdowns</td>
+                <td>AI content assistant + scheduler</td>
+                <td>4-5x/week</td>
+            </tr>
+            <tr>
+                <td><strong>Website/Blog</strong></td>
+                <td>Long-form case studies, framework articles, ROI calculators</td>
+                <td>SEO tools + AI writing assist</td>
+                <td>2x/month</td>
+            </tr>
+            <tr>
+                <td><strong>Email nurture</strong></td>
+                <td>Drip sequences for leads not ready to buy — educate until they are</td>
+                <td>Email automation platform</td>
+                <td>Automated</td>
+            </tr>
+            <tr>
+                <td><strong>Webinars/Demos</strong></td>
+                <td>Live dashboard demos, "audit in action" walkthroughs</td>
+                <td>Zoom + repurpose to clips</td>
+                <td>Monthly</td>
+            </tr>
+            <tr>
+                <td><strong>Cold outreach</strong></td>
+                <td>Targeted outreach to companies showing inefficiency signals</td>
+                <td>AI lead enrichment + personalization</td>
+                <td>20-30/week</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3><span class="tag tool">Tools</span> Marketing tech stack</h3>
+    <div class="grid-2">
+        <div class="grid-item">
+            <h4>Content & Distribution</h4>
+            <ul>
+                <li><strong>AI writing assistant</strong> — draft posts, repurpose long-form to short</li>
+                <li><strong>Canva / Figma</strong> — visual assets, carousels</li>
+                <li><strong>Buffer / Typefully</strong> — schedule and track LinkedIn</li>
+                <li><strong>Website (Framer/Next.js)</strong> — portfolio, case studies, blog</li>
+            </ul>
+        </div>
+        <div class="grid-item">
+            <h4>Lead Capture & Nurture</h4>
+            <ul>
+                <li><strong>Landing pages</strong> — free audit teaser, ROI calculator</li>
+                <li><strong>Email platform</strong> — automated sequences</li>
+                <li><strong>Lead magnets</strong> — free process audit template, checklist PDF</li>
+                <li><strong>Analytics</strong> — track what content drives actual leads</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>Before vs After</h3>
+    <div class="compare">
+        <div class="compare-box before">
+            <h4 style="margin-top:0; color: var(--red);">Without Marketing Function</h4>
+            <p>Rely on word of mouth</p>
+            <p>0 inbound leads/month</p>
+            <p>No online presence</p>
+            <p style="margin-bottom:0;"><strong>Revenue: unpredictable</strong></p>
+        </div>
+        <div class="compare-arrow">&rarr;</div>
+        <div class="compare-box after">
+            <h4 style="margin-top:0; color: var(--green);">With Marketing Function</h4>
+            <p>Consistent content engine running</p>
+            <p>10-20 inbound leads/month</p>
+            <p>Authority brand in BI + AI space</p>
+            <p style="margin-bottom:0;"><strong>Revenue: predictable pipeline</strong></p>
+        </div>
+    </div>
+
+    <div class="metric-row">
+        <div class="metric">
+            <div class="metric-value">5 hrs/wk</div>
+            <div class="metric-label">Time Investment</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value green">10-20</div>
+            <div class="metric-label">Leads/Month (Target)</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value blue">80%</div>
+            <div class="metric-label">AI-Assisted Content</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: MARKETING KPIs -->
+<div class="slide compact">
+    <div class="slide-num">3</div>
+    <div class="slide-label">Marketing KPIs</div>
+    <h2>Marketing metrics we track</h2>
+    <p class="sublead">Every activity maps to a number. If it doesn't move these metrics, we stop doing it.</p>
+
+    <table>
+        <thead>
+            <tr><th>Metric</th><th>Target (Month 3)</th><th>Target (Month 6)</th><th>Why it matters</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>LinkedIn impressions</strong></td><td>50K/month</td><td>200K/month</td><td>Top of funnel visibility</td></tr>
+            <tr><td><strong>Website visitors</strong></td><td>500/month</td><td>2,000/month</td><td>Inbound interest signal</td></tr>
+            <tr><td><strong>Lead magnet downloads</strong></td><td>30/month</td><td>100/month</td><td>Captured intent</td></tr>
+            <tr><td><strong>Qualified leads</strong></td><td>5-8/month</td><td>15-20/month</td><td>Sales-ready prospects</td></tr>
+            <tr><td><strong>Cost per lead</strong></td><td>&lt; ₹2,000</td><td>&lt; ₹1,500</td><td>Efficiency of spend</td></tr>
+            <tr><td><strong>Content-to-lead rate</strong></td><td>2%</td><td>4%</td><td>Content quality signal</td></tr>
+        </tbody>
+    </table>
+
+    <div class="callout green">
+        <p><strong>The marketing flywheel:</strong> Every client audit we deliver becomes a case study (anonymized). Every case study becomes 5 LinkedIn posts. Every post generates leads. Every lead becomes a client. The content engine feeds itself.</p>
+    </div>
+</div>
+
+<!-- SLIDE 4: SALES — PAIN -->
+<div class="slide compact">
+    <div class="slide-num">4</div>
+    <div class="slide-label">Function 2</div>
+    <h2>Sales</h2>
+    <p class="sublead">Convert inbound interest and outbound outreach into paying clients. Structured, repeatable, measurable.</p>
+
+    <h3><span class="tag pain">Pain</span> Without structured sales</h3>
+    <ul>
+        <li><strong>No pipeline visibility</strong> — don't know how many deals are in progress or their stage</li>
+        <li><strong>Inconsistent follow-up</strong> — leads go cold because no one tracked them</li>
+        <li><strong>No qualification framework</strong> — spending time on wrong prospects</li>
+        <li><strong>Pricing confusion</strong> — different quotes every time, leaving money on the table</li>
+        <li><strong>No proposal system</strong> — building from scratch each time, slow turnaround</li>
+    </ul>
+
+    <h3><span class="tag solution">Solution</span> Sales process for Ziiroo</h3>
+
+    <div class="flow">
+        <div class="flow-v">
+            <div class="flow-node">Lead comes in (inbound / outbound)</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Qualify — BANT check (Budget, Authority, Need, Timeline)</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Discovery call — 30 min, ask about their pain points</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Free mini-audit — show value upfront (public data analysis)</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Proposal — tailored offer with clear ROI numbers</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Close — sign agreement, onboard</div>
+        </div>
+    </div>
+
+    <h3>Service tiers (standardized pricing)</h3>
+    <table>
+        <thead>
+            <tr><th>Tier</th><th>What they get</th><th>Price</th><th>Timeline</th><th>Ideal for</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Discovery</strong></td>
+                <td>Quick audit — top 3 opportunities, ROI estimates, executive summary</td>
+                <td>₹25K – ₹50K</td>
+                <td>1-2 weeks</td>
+                <td>Skeptical prospects, first engagement</td>
+            </tr>
+            <tr>
+                <td><strong>Full Audit</strong></td>
+                <td>Complete BI + AI transformation report (all 7 phases)</td>
+                <td>₹1L – ₹3L</td>
+                <td>3-4 weeks</td>
+                <td>Committed companies wanting a roadmap</td>
+            </tr>
+            <tr>
+                <td><strong>Build</strong></td>
+                <td>Implementation of recommended AI/automation systems</td>
+                <td>₹2L – ₹10L/system</td>
+                <td>4-8 weeks</td>
+                <td>Post-audit clients ready to execute</td>
+            </tr>
+            <tr>
+                <td><strong>Retainer</strong></td>
+                <td>Ongoing optimization, new features, monitoring</td>
+                <td>₹30K – ₹1L/mo</td>
+                <td>Ongoing</td>
+                <td>Long-term partnership</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3><span class="tag tool">Tools</span> Sales tech stack</h3>
+    <div class="grid-2">
+        <div class="grid-item">
+            <h4>Pipeline Management</h4>
+            <ul>
+                <li><strong>CRM (Notion/HubSpot Free)</strong> — track every deal, stage, value</li>
+                <li><strong>Automated follow-ups</strong> — no lead goes cold</li>
+                <li><strong>Meeting scheduler</strong> — Calendly for frictionless booking</li>
+                <li><strong>Deal dashboard</strong> — real-time pipeline value</li>
+            </ul>
+        </div>
+        <div class="grid-item">
+            <h4>Proposal & Closing</h4>
+            <ul>
+                <li><strong>Proposal templates</strong> — pre-built for each tier, AI-personalized</li>
+                <li><strong>AI research agent</strong> — auto-research prospect before call</li>
+                <li><strong>E-signatures</strong> — instant contract signing</li>
+                <li><strong>Onboarding automation</strong> — trigger welcome sequence on close</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>Before vs After</h3>
+    <div class="compare">
+        <div class="compare-box before">
+            <h4 style="margin-top:0; color: var(--red);">Without Sales Function</h4>
+            <p>Ad-hoc conversations, no tracking</p>
+            <p>30% close rate (wasted effort)</p>
+            <p>3-5 day proposal turnaround</p>
+            <p style="margin-bottom:0;"><strong>Revenue: ₹1-2L/month (inconsistent)</strong></p>
+        </div>
+        <div class="compare-arrow">&rarr;</div>
+        <div class="compare-box after">
+            <h4 style="margin-top:0; color: var(--green);">With Sales Function</h4>
+            <p>CRM pipeline, every lead tracked</p>
+            <p>50-60% close rate (qualified leads)</p>
+            <p>Same-day proposal generation</p>
+            <p style="margin-bottom:0;"><strong>Revenue: ₹5-8L/month (predictable)</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: SALES KPIs -->
+<div class="slide compact">
+    <div class="slide-num">5</div>
+    <div class="slide-label">Sales KPIs</div>
+    <h2>Sales metrics we track</h2>
+    <p class="sublead">The sales function lives and dies by conversion rates. We optimize at every stage of the funnel.</p>
+
+    <table>
+        <thead>
+            <tr><th>Metric</th><th>Target</th><th>Why it matters</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Pipeline value</strong></td><td>₹15-20L at any time</td><td>Predictability of future revenue</td></tr>
+            <tr><td><strong>Lead-to-call rate</strong></td><td>60%+</td><td>Quality of leads from marketing</td></tr>
+            <tr><td><strong>Call-to-proposal rate</strong></td><td>70%+</td><td>Discovery call effectiveness</td></tr>
+            <tr><td><strong>Proposal-to-close rate</strong></td><td>50%+</td><td>Proposal quality and pricing</td></tr>
+            <tr><td><strong>Average deal size</strong></td><td>₹1.5L+</td><td>Revenue per client</td></tr>
+            <tr><td><strong>Sales cycle length</strong></td><td>&lt; 2 weeks</td><td>Velocity of revenue</td></tr>
+            <tr><td><strong>Client lifetime value</strong></td><td>₹5L+</td><td>Long-term relationship value</td></tr>
+        </tbody>
+    </table>
+
+    <div class="callout blue">
+        <p><strong>The sales advantage:</strong> Our free mini-audit (using public data) is our secret weapon. It gives prospects a taste of the value — most competitors just send a capabilities deck. We show actual insights about their business before asking for money.</p>
+    </div>
+</div>
+
+<!-- SLIDE 6: OPERATIONS — PAIN -->
+<div class="slide compact">
+    <div class="slide-num">6</div>
+    <div class="slide-label">Function 3</div>
+    <h2>Operations</h2>
+    <p class="sublead">Deliver every engagement on time, on quality, and on budget. Operations is how we fulfill what sales promised.</p>
+
+    <h3><span class="tag pain">Pain</span> Without structured operations</h3>
+    <ul>
+        <li><strong>Scope creep</strong> — no clear boundaries, projects expand without additional revenue</li>
+        <li><strong>Missed deadlines</strong> — no project tracking, things slip without visibility</li>
+        <li><strong>Inconsistent quality</strong> — output varies depending on mood, not process</li>
+        <li><strong>No templates/SOPs</strong> — rebuilding from scratch each engagement</li>
+        <li><strong>Communication gaps</strong> — client doesn't know status, has to ask</li>
+        <li><strong>No capacity planning</strong> — overcommit, underdeliver, burn out</li>
+    </ul>
+
+    <h3><span class="tag solution">Solution</span> Operations framework for Ziiroo</h3>
+
+    <h4>Client engagement lifecycle</h4>
+    <div class="flow">
+        <div class="flow-v">
+            <div class="flow-node">Onboarding — kickoff call, access requests, timeline agreed</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Discovery — data collection, interviews, observation</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Analysis — process mapping, metrics, opportunity ID</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Delivery — report writing, ROI calculations, roadmap</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Presentation — walkthrough with client, Q&A, next steps</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Implementation (if sold) — build, test, deploy, train</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Handoff — documentation, support transition, feedback</div>
+        </div>
+    </div>
+
+    <h3>Operational systems</h3>
+    <div class="grid-3">
+        <div class="grid-item">
+            <h4>Project Management</h4>
+            <ul>
+                <li>Task board per client</li>
+                <li>Milestone tracking</li>
+                <li>Time logging</li>
+                <li>Deadline alerts</li>
+            </ul>
+        </div>
+        <div class="grid-item">
+            <h4>Client Communication</h4>
+            <ul>
+                <li>Weekly status updates (auto)</li>
+                <li>Shared progress dashboard</li>
+                <li>Feedback loops built in</li>
+                <li>Single point of contact</li>
+            </ul>
+        </div>
+        <div class="grid-item">
+            <h4>Quality Assurance</h4>
+            <ul>
+                <li>Report templates (pre-built)</li>
+                <li>QA checklist per deliverable</li>
+                <li>Peer review before delivery</li>
+                <li>Client satisfaction score</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3><span class="tag tool">Tools</span> Operations tech stack</h3>
+    <table>
+        <thead>
+            <tr><th>Area</th><th>Tool</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Project tracking</strong></td><td>Linear / Notion</td><td>Tasks, milestones, deadlines per engagement</td></tr>
+            <tr><td><strong>Client portal</strong></td><td>Custom dashboard</td><td>Clients see real-time progress, no need to ask</td></tr>
+            <tr><td><strong>Document templates</strong></td><td>AI + structured templates</td><td>Consistent, fast report generation</td></tr>
+            <tr><td><strong>Time tracking</strong></td><td>Toggl / built-in</td><td>Know where hours go, price accurately</td></tr>
+            <tr><td><strong>Automation</strong></td><td>n8n / Make</td><td>Auto-send updates, create tasks, trigger workflows</td></tr>
+            <tr><td><strong>Knowledge base</strong></td><td>Internal docs (RAG-indexed)</td><td>SOPs, past audit patterns, reusable frameworks</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Before vs After</h3>
+    <div class="compare">
+        <div class="compare-box before">
+            <h4 style="margin-top:0; color: var(--red);">Without Operations Function</h4>
+            <p>Chaotic delivery, scope creep</p>
+            <p>1 client at a time (max capacity)</p>
+            <p>Every report built from scratch</p>
+            <p style="margin-bottom:0;"><strong>Capacity: 2-3 audits/month max</strong></p>
+        </div>
+        <div class="compare-arrow">&rarr;</div>
+        <div class="compare-box after">
+            <h4 style="margin-top:0; color: var(--green);">With Operations Function</h4>
+            <p>Predictable delivery, clear scope</p>
+            <p>3-5 clients in parallel</p>
+            <p>Templatized + AI-assisted reports</p>
+            <p style="margin-bottom:0;"><strong>Capacity: 6-8 audits/month</strong></p>
+        </div>
+    </div>
+
+    <div class="metric-row">
+        <div class="metric">
+            <div class="metric-value green">3x</div>
+            <div class="metric-label">Capacity Increase</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value green">60%</div>
+            <div class="metric-label">Faster Delivery</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value blue">90%+</div>
+            <div class="metric-label">On-Time Rate</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7: OPS KPIs -->
+<div class="slide compact">
+    <div class="slide-num">7</div>
+    <div class="slide-label">Operations KPIs</div>
+    <h2>Operations metrics we track</h2>
+    <p class="sublead">Delivery quality and efficiency determine whether clients come back and refer others.</p>
+
+    <table>
+        <thead>
+            <tr><th>Metric</th><th>Target</th><th>Why it matters</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>On-time delivery rate</strong></td><td>95%+</td><td>Trust and professionalism</td></tr>
+            <tr><td><strong>Client satisfaction (NPS)</strong></td><td>9+/10</td><td>Referral potential</td></tr>
+            <tr><td><strong>Hours per audit</strong></td><td>&lt; 40 hours (full audit)</td><td>Profitability per engagement</td></tr>
+            <tr><td><strong>Template reuse rate</strong></td><td>70%+</td><td>Operational efficiency</td></tr>
+            <tr><td><strong>Active projects</strong></td><td>3-5 concurrent</td><td>Revenue throughput</td></tr>
+            <tr><td><strong>Scope change requests</strong></td><td>&lt; 1 per project</td><td>Upfront clarity</td></tr>
+            <tr><td><strong>Referral rate</strong></td><td>30%+ of clients refer</td><td>Organic growth signal</td></tr>
+        </tbody>
+    </table>
+
+    <div class="callout orange">
+        <p><strong>The operations edge:</strong> By templatizing our audit process and using AI to generate first drafts of reports, we do in 40 hours what traditional consultants take 100+ hours for. That's our margin advantage — same quality, 60% less time.</p>
+    </div>
+</div>
+
+<!-- SLIDE 8: HOW THEY CONNECT -->
+<div class="slide compact">
+    <div class="slide-num">8</div>
+    <div class="slide-label">Integration</div>
+    <h2>How the three functions connect</h2>
+    <p class="sublead">These aren't silos. Data flows between them. Each function's output is the next function's input.</p>
+
+    <div class="flow">
+        <div class="flow-v">
+            <div class="flow-node" style="font-weight:600;">Marketing creates awareness</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Leads enter CRM with source tracking</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node" style="font-weight:600;">Sales qualifies and converts</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Won deal triggers onboarding workflow</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node" style="font-weight:600;">Operations delivers the engagement</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node">Completed project becomes case study</div>
+            <div class="flow-connector"></div>
+            <div class="flow-node muted">Case study feeds back to Marketing (loop)</div>
+        </div>
+    </div>
+
+    <h3>Data handoffs between functions</h3>
+    <table>
+        <thead>
+            <tr><th>From</th><th>To</th><th>What passes</th><th>Automated?</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Marketing</td><td>Sales</td><td>Qualified lead + source + engagement history</td><td>Yes (CRM auto)</td></tr>
+            <tr><td>Sales</td><td>Operations</td><td>Signed scope, client details, timeline, access info</td><td>Yes (trigger)</td></tr>
+            <tr><td>Operations</td><td>Marketing</td><td>Completed case study, results data, testimonial</td><td>Semi-auto</td></tr>
+            <tr><td>Operations</td><td>Sales</td><td>Upsell signals, expansion opportunities</td><td>Manual flag</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- SLIDE 9: IMPLEMENTATION ROADMAP -->
+<div class="slide compact">
+    <div class="slide-num">9</div>
+    <div class="slide-label">Roadmap</div>
+    <h2>Building these functions — timeline</h2>
+    <p class="sublead">We don't need everything on day one. Start lean, add sophistication as revenue justifies it.</p>
+
+    <div class="gantt">
+        <div class="gantt-section">
+            <div class="gantt-section-label">Week 1-2 — Foundation</div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">CRM setup</div>
+                <div class="gantt-bar-track"><div class="gantt-bar green" style="left:0%;width:15%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Sales process documented</div>
+                <div class="gantt-bar-track"><div class="gantt-bar green" style="left:0%;width:15%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">LinkedIn content calendar</div>
+                <div class="gantt-bar-track"><div class="gantt-bar green" style="left:5%;width:10%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Proposal templates</div>
+                <div class="gantt-bar-track"><div class="gantt-bar green" style="left:5%;width:10%;"></div></div>
+            </div>
+        </div>
+        <div class="gantt-section">
+            <div class="gantt-section-label">Week 3-4 — Activation</div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Start publishing content</div>
+                <div class="gantt-bar-track"><div class="gantt-bar blue" style="left:15%;width:85%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Cold outreach begins</div>
+                <div class="gantt-bar-track"><div class="gantt-bar blue" style="left:15%;width:20%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Audit report template</div>
+                <div class="gantt-bar-track"><div class="gantt-bar blue" style="left:15%;width:15%;"></div></div>
+            </div>
+        </div>
+        <div class="gantt-section">
+            <div class="gantt-section-label">Month 2 — Optimization</div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Email nurture sequences</div>
+                <div class="gantt-bar-track"><div class="gantt-bar dark" style="left:35%;width:20%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Client portal</div>
+                <div class="gantt-bar-track"><div class="gantt-bar dark" style="left:40%;width:20%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">AI report generation</div>
+                <div class="gantt-bar-track"><div class="gantt-bar dark" style="left:45%;width:25%;"></div></div>
+            </div>
+        </div>
+        <div class="gantt-section">
+            <div class="gantt-section-label">Month 3+ — Scale</div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Lead scoring model</div>
+                <div class="gantt-bar-track"><div class="gantt-bar dark" style="left:65%;width:20%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Automated pipeline reports</div>
+                <div class="gantt-bar-track"><div class="gantt-bar dark" style="left:70%;width:15%;"></div></div>
+            </div>
+            <div class="gantt-bar-row">
+                <div class="gantt-bar-label">Scale to 5+ concurrent clients</div>
+                <div class="gantt-bar-track"><div class="gantt-bar dark" style="left:75%;width:25%;"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timeline-item">
+        <div class="timeline-label">Week 1-2</div>
+        <h4>Set up the infrastructure</h4>
+        <p>CRM, proposal templates, content calendar, standardized pricing tiers, project management board. Zero cost tools — focus on process, not software.</p>
+    </div>
+
+    <div class="timeline-item">
+        <div class="timeline-label">Week 3-4</div>
+        <h4>Start generating demand</h4>
+        <p>Publish first LinkedIn posts. Begin cold outreach to 20 prospects/week. Complete audit report template. First discovery call booked.</p>
+    </div>
+
+    <div class="timeline-item">
+        <div class="timeline-label">Month 2</div>
+        <h4>First clients + optimize</h4>
+        <p>Close first 2-3 paying clients. Learn from delivery. Build email nurture for leads not ready yet. Start automating repetitive ops tasks.</p>
+    </div>
+
+    <div class="timeline-item">
+        <div class="timeline-label">Month 3+</div>
+        <h4>Scale operations</h4>
+        <p>AI-assisted report generation. Client portal for status visibility. Handle 5+ concurrent engagements without quality drop. Hire first ops support if needed.</p>
+    </div>
+</div>
+
+<!-- SLIDE 10: REVENUE MODEL -->
+<div class="slide compact">
+    <div class="slide-num">10</div>
+    <div class="slide-label">Revenue Projection</div>
+    <h2>What this looks like financially</h2>
+    <p class="sublead">Conservative estimates based on the targets above.</p>
+
+    <table>
+        <thead>
+            <tr><th>Month</th><th>Clients</th><th>Revenue</th><th>Costs</th><th>Net</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Month 1</strong></td><td>1-2 discovery audits</td><td>₹50K – ₹1L</td><td>₹10K (tools)</td><td>₹40K – ₹90K</td></tr>
+            <tr><td><strong>Month 2</strong></td><td>2-3 clients (mix of tiers)</td><td>₹1.5L – ₹3L</td><td>₹15K</td><td>₹1.35L – ₹2.85L</td></tr>
+            <tr><td><strong>Month 3</strong></td><td>3-4 clients + 1 implementation</td><td>₹3L – ₹6L</td><td>₹20K</td><td>₹2.8L – ₹5.8L</td></tr>
+            <tr><td><strong>Month 6</strong></td><td>5-6 concurrent + retainers</td><td>₹6L – ₹12L</td><td>₹50K</td><td>₹5.5L – ₹11.5L</td></tr>
+        </tbody>
+    </table>
+
+    <div class="metric-row">
+        <div class="metric">
+            <div class="metric-value green">₹6-12L</div>
+            <div class="metric-label">Month 6 Revenue</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value green">85%+</div>
+            <div class="metric-label">Gross Margin</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value blue">₹0</div>
+            <div class="metric-label">Upfront Investment</div>
+        </div>
+    </div>
+
+    <div class="callout">
+        <p><strong>The unit economics:</strong> A full audit takes ~40 hours and earns ₹1-3L. That's ₹2,500-7,500/hour effective rate. Implementation projects are even higher margin because templates and AI do 60% of the work. Margins only improve with scale.</p>
+    </div>
+</div>
+
+<!-- SLIDE 11: IMMEDIATE ACTIONS -->
+<div class="slide compact">
+    <div class="slide-num">11</div>
+    <div class="slide-label">Next Steps</div>
+    <h2>Immediate actions — this week</h2>
+    <p class="sublead">Everything above is strategy. Here's what to do tomorrow morning.</p>
+
+    <h3>Marketing (Day 1-3)</h3>
+    <ol>
+        <li><strong>Write 5 LinkedIn posts</strong> — use the framework doc as source material</li>
+        <li><strong>Create a lead magnet</strong> — "Free Process Audit Checklist" or "Is Your Business Losing Money?" quiz</li>
+        <li><strong>Set up a simple landing page</strong> — one page, one CTA: "Book a free 15-min audit preview"</li>
+    </ol>
+
+    <h3>Sales (Day 2-4)</h3>
+    <ol>
+        <li><strong>Set up CRM</strong> — even a Notion board with columns: Lead / Contacted / Discovery / Proposal / Closed</li>
+        <li><strong>Write the discovery call script</strong> — 10 key questions you ask every prospect</li>
+        <li><strong>Build proposal template</strong> — one for Discovery tier, one for Full Audit</li>
+        <li><strong>Identify 20 target companies</strong> — local businesses with visible inefficiencies</li>
+    </ol>
+
+    <h3>Operations (Day 3-5)</h3>
+    <ol>
+        <li><strong>Document the audit process</strong> — step-by-step SOP for a full engagement</li>
+        <li><strong>Create the report template</strong> — sections pre-built, just fill in client-specific data</li>
+        <li><strong>Set up project board</strong> — one template per engagement type</li>
+        <li><strong>Define scope boundaries</strong> — what's included per tier, what's extra</li>
+    </ol>
+
+    <div class="callout green">
+        <p><strong>Total setup cost: ₹0.</strong> Every tool mentioned has a free tier. The investment is time and focus, not money. Start with process. Add paid tools only when volume demands it.</p>
+    </div>
+</div>
+
+<!-- CLOSE -->
+<div class="slide compact">
+    <div class="slide-label">Summary</div>
+    <h2>The core idea</h2>
+    <p class="sublead">Three functions. One revenue engine. Built on the same AI + BI principles we sell to clients.</p>
+
+    <div class="flow">
+        <div class="flow-h">
+            <div class="flow-node">Marketing<br><span style="font-size:11px;color:var(--green);">creates demand</span></div>
+            <div class="flow-h-arrow"></div>
+            <div class="flow-node">Sales<br><span style="font-size:11px;color:var(--blue);">converts demand</span></div>
+            <div class="flow-h-arrow"></div>
+            <div class="flow-node">Operations<br><span style="font-size:11px;color:var(--orange);">delivers value</span></div>
+        </div>
+    </div>
+
+    <p style="margin-top:36px;">Each function is lean, AI-assisted, and measured. We eat our own cooking — and that's what makes us credible when we tell clients to do the same.</p>
+
+    <div class="footer">
+        <p style="margin-bottom:4px;">Ziiroo — Internal Functions Blueprint</p>
+        <p>July 2026</p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
